@@ -132,7 +132,7 @@ void ft_fill_buf(void *buf, int size);
 int ft_check_buf(void *buf, int size);
 #define ADDR_OPTS "b:p:s:"
 #define INFO_OPTS "n:f:"
-#define CS_OPTS ADDR_OPTS "I:S:m"
+#define CS_OPTS ADDR_OPTS "I:S:mB"
 
 extern char default_port[8];
 
