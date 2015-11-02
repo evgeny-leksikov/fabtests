@@ -162,7 +162,7 @@ int ft_alloc_msgs(void)
 	rx_buf = buf;
 	tx_buf = (char *) buf + MAX(rx_size, FT_MAX_CTRL_MSG);
 
-	ret = fi_mr_reg(domain, buf, buf_size, FI_RECV | FI_SEND,
+	ret = fi_mr_reg(domain, buf, buf_size, FI_RECV | FI_SEND | FI_REMOTE_READ | FI_REMOTE_WRITE,
 			0, 0, 0, &mr, NULL);
 	if (ret) {
 		FT_PRINTERR("fi_mr_reg", ret);
@@ -422,6 +422,7 @@ int ft_exchange_keys(struct fi_rma_iov *peer_iov)
 		rma_iov->addr = fi->domain_attr->mr_mode == FI_MR_SCALABLE ?
 				0 : (uintptr_t) rx_buf + ft_rx_prefix_size();
 		rma_iov->key = fi_mr_key(mr);
+        rma_iov->len = buf_size;
 		ret = ft_tx(sizeof *rma_iov);
 		if (ret)
 			return ret;
@@ -448,6 +449,7 @@ int ft_exchange_keys(struct fi_rma_iov *peer_iov)
 		rma_iov->addr = fi->domain_attr->mr_mode == FI_MR_SCALABLE ?
 				0 : (uintptr_t) rx_buf + ft_rx_prefix_size();
 		rma_iov->key = fi_mr_key(mr);
+        rma_iov->len = buf_size;
 		ret = ft_tx(sizeof *rma_iov);
 	}
 
@@ -962,6 +964,7 @@ void ft_usage(char *name, char *desc)
 	FT_PRINT_OPTS_USAGE("-p <dst_port>", "non default destination port number");
 	FT_PRINT_OPTS_USAGE("-f <provider>", "specific provider name eg sockets, verbs");
 	FT_PRINT_OPTS_USAGE("-s <address>", "source address");
+	FT_PRINT_OPTS_USAGE("-B", "force BASIC RMA mode");
 	FT_PRINT_OPTS_USAGE("-h", "display this help output");
 
 	return;
@@ -1013,6 +1016,9 @@ void ft_parseinfo(int op, char *optarg, struct fi_info *hints)
 		}
 		hints->fabric_attr->prov_name = strdup(optarg);
 		break;
+    case 'B':
+        hints->domain_attr->mr_mode = FI_MR_BASIC;
+        break;
 	default:
 		/* let getopt handle unknown opts*/
 		break;

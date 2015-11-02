@@ -58,6 +58,10 @@ simple_tests=(
 	"rdm_tagged_peek"
 	"scalable_ep"
 	"cmatose"
+	"rdm_rma_msgv -B -o writev"
+	"rdm_rma_msgv -B -o readv"
+	"rdm_rma_msgv -B -o writemsg"
+	"rdm_rma_msgv -B -o readmsg"
 )
 
 short_tests=(
