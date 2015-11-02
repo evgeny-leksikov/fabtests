@@ -44,20 +44,25 @@ function no_data_num {
 declare -ri FI_ENODATA=$(no_data_num)
 
 simple_tests=(
-	"cq_data"
-	"dgram"
-	"dgram_waitset"
-	"msg"
-	"msg_epoll"
-	"msg_sockets"
-	"poll"
-	"rdm"
-	"rdm_rma_simple"
-	"rdm_rma_trigger"
-	"rdm_shared_ctx"
-	"rdm_tagged_peek"
-	"scalable_ep"
-	"cmatose"
+    #"rdm_rma_msgv -B -o writev"
+    #"rdm_rma_msgv -B -o readv"
+    "rdm_rma_msgv -B -o writemsg"
+    "rdm_rma_msgv -B -o readmsg"
+	#"rdm_rma_msgv"
+	#"cq_data"
+	#"dgram"
+	#"dgram_waitset"
+	#"msg"
+	#"msg_epoll"
+	#"msg_sockets"
+	#"poll"
+	#"rdm"
+	#"rdm_rma_simple"
+	#"rdm_rma_trigger"
+	#"rdm_shared_ctx"
+	#"rdm_tagged_peek"
+	#"scalable_ep"
+	#"cmatose"
 )
 
 short_tests=(
@@ -79,30 +84,30 @@ short_tests=(
 )
 
 standard_tests=(
-	"msg_pingpong"
-	"msg_pingpong -v"
-	"msg_pingpong -P"
-	"msg_pingpong -P -v"
-	"msg_rma -o write"
-	"msg_rma -o read"
-	"msg_rma -o writedata"
-	"rdm_atomic -o all -I 10000"
-	"rdm_cntr_pingpong"
-	"rdm_inject_pingpong"
-	"rdm_multi_recv"
-	"rdm_pingpong"
-	"rdm_pingpong -v"
-	"rdm_pingpong -P"
-	"rdm_pingpong -P -v"
-	"rdm_rma -o write"
+	#"msg_pingpong"
+	#"msg_pingpong -v"
+	#"msg_pingpong -P"
+	#"msg_pingpong -P -v"
+	#"msg_rma -o write"
+	#"msg_rma -o read"
+	#"msg_rma -o writedata"
+	#"rdm_atomic -o all -I 10000"
+	#"rdm_cntr_pingpong"
+	#"rdm_inject_pingpong"
+	#"rdm_multi_recv"
+	#"rdm_pingpong"
+	#"rdm_pingpong -v"
+	#"rdm_pingpong -P"
+	#"rdm_pingpong -P -v"
+	#"rdm_rma -o write"
 	"rdm_rma -o read"
-	"rdm_rma -o writedata"
-	"rdm_tagged_pingpong"
-	"ud_pingpong"
-	"ud_pingpong -v"
-	"ud_pingpong -P"
-	"ud_pingpong -P -v"
-	"rc_pingpong"
+	#"rdm_rma -o writedata"
+	#"rdm_tagged_pingpong"
+	#"ud_pingpong"
+	#"ud_pingpong -v"
+	#"ud_pingpong -P"
+	#"ud_pingpong -P -v"
+	#"rc_pingpong"
 )
 
 unit_tests=(
@@ -251,11 +256,13 @@ function cs_test {
 
 	start_time=$(date '+%s')
 
-	${SERVER_CMD} "${BIN_PATH}${test_exe} -s $S_INTERFACE" &> $s_outp &
+	#${SERVER_CMD} "${BIN_PATH}${test_exe} -s $S_INTERFACE" &
+    ${SERVER_CMD} "${BIN_PATH}${test_exe} -s $S_INTERFACE" &> $s_outp &
 	p1=$!
 	sleep 1s
 
-	${CLIENT_CMD} "${BIN_PATH}${test_exe} -s $C_INTERFACE $S_INTERFACE" &> $c_outp &
+	#${CLIENT_CMD} "${BIN_PATH}${test_exe} -s $C_INTERFACE $S_INTERFACE" &
+    ${CLIENT_CMD} "${BIN_PATH}${test_exe} -s $C_INTERFACE $S_INTERFACE" &> $c_outp &
 	p2=$!
 
 	wait $p1

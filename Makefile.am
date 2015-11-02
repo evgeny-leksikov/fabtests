@@ -7,6 +7,7 @@ bin_PROGRAMS = \
 	simple/fi_rdm \
 	simple/fi_rdm_rma_simple \
 	simple/fi_rdm_rma_trigger \
+	simple/fi_rdm_rma_msgv \
 	simple/fi_dgram \
 	simple/fi_dgram_waitset \
 	simple/fi_rdm_tagged_peek \
@@ -69,6 +70,10 @@ simple_fi_rdm_LDADD = libfabtests.la
 simple_fi_rdm_rma_simple_SOURCES = \
 	simple/rdm_rma_simple.c
 simple_fi_rdm_rma_simple_LDADD = libfabtests.la
+
+simple_fi_rdm_rma_msgv_SOURCES = \
+	simple/rdm_rma_msgv.c
+simple_fi_rdm_rma_msgv_LDADD = libfabtests.la
 
 simple_fi_rdm_rma_trigger_SOURCES = \
 	simple/rdm_rma_trigger.c
